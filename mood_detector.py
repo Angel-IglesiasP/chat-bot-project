@@ -17,6 +17,9 @@ def detect_mood(text):
     text = text.lower()
     mood_scores = {mood: 0 for mood in mood_keywords} #creates a dictionary to store how many keywords matches each emotion
 
+    if "?" in text:
+        return "question"
+    
     # simplle loop to count each emotion and match it the keywords in the text.
     for mood, phrases in mood_keywords.items():
         for phrase in phrases:
