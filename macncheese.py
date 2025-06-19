@@ -11,7 +11,7 @@ from threading import Event
 import pygame
 import random
 import requests
-from pathUtils import get_asset_path
+from path_utils import get_asset_path
 
 # === Initialize sound ===
 pygame.mixer.init()
