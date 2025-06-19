@@ -16,7 +16,7 @@ trigger_phrases = [
     "what are you called", "do you have a last name", "can i give you a name", "whats your backstory",
     "where do you live", "whats your origin", "do you have parents", "do you have a family", "are you a boy",
     "are you a girl", "are you nonbinary", "what are your pronouns", "whats your personality", "what zodiac sign are you",
-    "whens your birthday", "how old are you", "what generation are you from", "what can you tell me about you", "what can you tell me about yoursel", "do you have any hobby", "what do you like to do on your free time"
+    "whens your birthday", "how old are you", "what generation are you from", "what can you tell me about you", "what can you tell me about yoursel", "do you have any hobby", "what do you like to do on your free time", "have you seen", "tell me about you", "what is your favorite", "what do you like from"
 ]
 
 def clean_prompt(user_input):

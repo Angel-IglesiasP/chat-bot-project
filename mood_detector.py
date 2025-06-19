@@ -6,12 +6,12 @@ analyzer = SentimentIntensityAnalyzer()
 
 #dictionary cointaining posibble emotion triggers to detect and find the right sprite to match the emotion
 mood_keywords = {
-    "happy": ["yay", "great", "awesome", "fun", "love", "cool", "this is good", "excited","maybe tomorrow", "i'll try", "one day", "i believe", "not giving up", "thanks", "thank you"],
-    "sad": ["sad", "bad", "sorry", "hurt", "tired", "i guess", "maybe later", "i'll try again", "oh well", "meh", "sure", "ok", "fine", "idk", "i guess so", "doesn't matter", "see you later"],
-    "angry": ["mad", "angry", "annoyed", "hate", "ugh", "whatever", "this sucks", "why bother"],
-    "question": ["what", "why", "how", "when", "can you", "is it", "do you know", "where"],
+    "happy": [
+        "good", "great", "awesome", "fun", "love", "yay", "cool", "sweet", "happy", "this is good", "fantastic", "amazing", "i'm fine", "i'm okay", "i'm good", "life is good", "all good", "doing well", "i'm excited", "thank you", "thanks", "this rocks", "i feel lucky", "feeling positive", "things are looking up"],
+    "sad": ["sad", "bad", "sorry", "hurt", "tired", "i guess", "maybe later", "i'll try again", "oh well", "meh", "sure", "ok", "fine", "idk", "i don't know", "not great", "feeling down", "doesn't matter", "see you later", "not really", "i feel alone", "i feel lost", "i'm not okay"],
+    "angry": ["mad", "angry", "annoyed", "hate", "ugh", "whatever", "this sucks", "why bother", "i'm upset", "i'm frustrated", "i'm pissed", "i'm tired of this", "nothing works", "leave me alone"],
+    "question": ["what", "why", "how", "when", "where", "who", "can you", "is it", "do you know", "would you", "should i", "could you", "will you", "can i", "how come", "am i", "are we", "does it"]
 }
-
 #function to read the line of text and returns the emotion category
 def detect_mood(text):
     text = text.lower()

@@ -59,7 +59,7 @@ weather_sprites = {
 
 # === JoJo mode setup ===
 jojo_keywords = [
-    "jojo", "jotaro", "dio", "kira", "josuke", "giorno", "bruno", "polnareff", "caesar", "lisa lisa",
+    "jojo", "jojos", "jotaro", "dio", "kira", "josuke", "giorno", "bruno", "polnareff", "caesar", "lisa lisa",
     "speedwagon", "hol horse", "okuyasu", "mista", "abbacchio", "diavolo", "pucci", "jolyne", "anastasia",
     "ermes", "gyro", "valentine", "gappy", "yasuho", "stand", "muda", "za warudo", "yare yare daze",
     "kono dio da", "requiem", "king crimson", "gold experience", "killer queen", "bites the dust",
@@ -67,7 +67,7 @@ jojo_keywords = [
 ]
 
 jojo_sprites = [
-    "assets/sprites/jojo.png",
+    "assets/sprites/jojo1.png",
     "assets/sprites/jojo2.png",
     "assets/sprites/jojo3.png"
 ]
@@ -228,11 +228,6 @@ def process_input():
         append_message("You", user_input)
         print("[DEBUG] User requested exit")
 
-        if any(word in user_input.lower() for word in jojo_keywords):
-            show_sprite(random.choice(jojo_sprites))
-        else:
-            show_sprite(special_sprites["loading"])
-
         def exit_callback():
             typing_sound.stop()
             background_music.stop()
@@ -252,14 +247,25 @@ def process_input():
 
     def worker():
         try:
+            print("[DEBUG] get_bot_response called with:", user_input)
             response = get_bot_response(user_input)
-            mood = detect_mood(user_input)
-            sprite_path = get_sprite_for_mood(mood, sprite_dict)
+            print("[DEBUG] Gemini raw response:", response)
+
+            # JoJo keyword check has priority
+            if any(word in user_input.lower() for word in jojo_keywords):
+                sprite_path = random.choice(jojo_sprites)
+                print("[DEBUG] JoJo keyword detected — using special sprite")
+            else:
+                mood = detect_mood(user_input)
+                sprite_path = get_sprite_for_mood(mood, sprite_dict) or special_sprites["talking"]
+                print("[DEBUG] Mood detected:", mood)
+
             response_data.update({
                 "response": response,
                 "sprite_path": sprite_path
             })
         except Exception as e:
+            print("[DEBUG] Gemini Error:", e)
             response_data["error"] = e
         finally:
             response_ready.set()
