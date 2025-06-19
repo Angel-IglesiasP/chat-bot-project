@@ -6,8 +6,8 @@ analyzer = SentimentIntensityAnalyzer()
 
 #dictionary cointaining posibble emotion triggers to detect and find the right sprite to match the emotion
 mood_keywords = {
-    "happy": ["hi", "hello", "how are you?", "yay", "great", "awesome", "fun", "love", "cool", "this is good", "excited","maybe tomorrow", "i'll try", "one day", "i believe", "not giving up", "thanks", "thank you"],
-    "sad": ["sad", "bad", "sorry", "hurt", "tired", "i guess", "maybe later", "i'll try again", "oh well", "meh", "sure", "ok", "fine", "idk", "i guess so", "doesn't matter", "bye", "see you later", "byee"],
+    "happy": ["yay", "great", "awesome", "fun", "love", "cool", "this is good", "excited","maybe tomorrow", "i'll try", "one day", "i believe", "not giving up", "thanks", "thank you"],
+    "sad": ["sad", "bad", "sorry", "hurt", "tired", "i guess", "maybe later", "i'll try again", "oh well", "meh", "sure", "ok", "fine", "idk", "i guess so", "doesn't matter", "see you later"],
     "angry": ["mad", "angry", "annoyed", "hate", "ugh", "whatever", "this sucks", "why bother"],
     "question": ["what", "why", "how", "when", "can you", "is it", "do you know", "where"],
 }
