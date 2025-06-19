@@ -1,29 +1,43 @@
-import os #gives me access to read the image folder for the sprites
-import random #I will use this to select a random sprite from all the images i made
+import os      # For working with file paths
+import sys     # To detect if we're running as a PyInstaller executable
+import random  # For selecting random sprites by mood
 
-#load all the sprites files from the path folder 
-def load_sprite_variants(path="assets/sprites"):
-    sprite_dict = {} #empty diccionary to store all the sprites 
 
-#go thru the path to get each file in the folder
-    for filename in os.listdir(path):           
-        if filename.endswith((".png", ".gif")):
-            mood = ''.join(filter(str.isalpha, os.path.splitext(filename)[0]))   #basically filters all images by name (happy1, happy2, happy3, etc) takes the number and the file extension out and match it with the emotion with the same name
+# === Load all sprite image paths into a dictionary ===
+def load_sprite_variants():
+    # Determine base path depending on execution context (script vs. .exe)
+    if getattr(sys, 'frozen', False):
+        base_path = sys._MEIPASS  # Path for PyInstaller bundled app
+    else:
+        base_path = os.path.abspath(".")
 
-            #hust in case to handle other mood that I might create later.
-            if mood not in sprite_dict:
-                sprite_dict[mood] = []
+    sprite_folder = os.path.join(base_path, "assets", "sprites")
+    sprite_dict = {}
 
-            #dd the full file path of this sprite to the moods list
-            sprite_dict[mood].append(os.path.join(path, filename))          
+    # Loop through files in the sprites folder
+    for filename in os.listdir(sprite_folder):
+        if filename.endswith((".png", ".gif", ".jpg")):
+            sprite_name = os.path.splitext(filename)[0]  # e.g., "happy1"
+            sprite_path = os.path.join(sprite_folder, filename)
+            sprite_dict[sprite_name] = sprite_path
 
-    #returns the mood sprite diccionary
     return sprite_dict
 
-#check the dictionary and return a matching sprite
+
+# === Return a sprite path based on detected mood ===
 def get_sprite_for_mood(mood, sprite_dict):
-    #if we have this emotion, choose one ramdonly 
-    if mood in sprite_dict:
-        return random.choice(sprite_dict[mood])
+    # Find all sprite entries that match the mood prefix (e.g., "happy1", "happy2", etc.)
+    matching_sprites = [
+        path for name, path in sprite_dict.items()
+        if name.startswith(mood)
+    ]
+
+    if matching_sprites:
+        return random.choice(matching_sprites)
     else:
-        return "assets/sprites/error.png" #handles erros. if emotion not found display error image
+        # Fallback to error sprite if no match is found
+        if getattr(sys, 'frozen', False):
+            base_path = sys._MEIPASS
+        else:
+            base_path = os.path.abspath(".")
+        return os.path.join(base_path, "assets", "sprites", "error.png")
