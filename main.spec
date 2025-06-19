@@ -5,7 +5,7 @@ a = Analysis(
     ['main.py'],
     pathex=[],
     binaries=[],
-    datas=[('assets', 'assets')],
+    datas=[('assets', 'assets'), ('.env', '.env')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
@@ -22,7 +22,11 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
+<<<<<<< HEAD:main.spec
     name='main',
+=======
+    name='MacnCheese',
+>>>>>>> 0859b3d (hopefuly final version):MacnCheese.spec
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,

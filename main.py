@@ -11,6 +11,7 @@ from threading import Event
 import pygame
 import random
 import requests
+from pathUtils import get_asset_path
 
 # === Initialize sound ===
 pygame.mixer.init()
@@ -19,9 +20,15 @@ pygame.mixer.init()
 base_path = os.path.dirname(os.path.abspath(__file__))
 
 # Load sound effects
-typing_sound = pygame.mixer.Sound(os.path.join(base_path, "assets", "sfx", "typing sound.wav"))
-typing_sound.set_volume(0.3)
-background_music = pygame.mixer.Sound(os.path.join(base_path, "assets", "sfx", "background music.wav"))
+try:
+    typing_sound = pygame.mixer.Sound(get_asset_path("assets/sfx/typing sound.wav"))
+    typing_sound.set_volume(0.3)
+except Exception as e:
+    with open("log.txt", "a") as f:
+        f.write("[SOUND ERROR] " + str(e) + "\n")
+    typing_sound = None
+
+background_music = pygame.mixer.Sound(get_asset_path("assets/sfx/background music.wav"))
 background_music.set_volume(0.1)
 background_music.play(loops=-1)
 
@@ -34,27 +41,27 @@ sprite_animation_job = None
 sprite_dict = load_sprite_variants()
 
 special_sprites = {
-    "welcome": "assets/sprites/talking.gif",
-    "loading": "assets/sprites/loading.gif",
-    "error": "assets/sprites/error.png",
-    "talking": "assets/sprites/talking.gif"
+    "welcome": get_asset_path("assets/sprites/talking.gif"),
+    "loading": get_asset_path("assets/sprites/loading.gif"),
+    "error": get_asset_path("assets/sprites/error.png"),
+    "talking": get_asset_path("assets/sprites/talking.gif")
 }
 
 rps_sprites = {
-    "rock": "assets/sprites/rps_rock.png",
-    "paper": "assets/sprites/rps_paper.png",
-    "scissors": "assets/sprites/rps_scissors.png"
+    "rock": get_asset_path("assets/sprites/rps_rock.png"),
+    "paper": get_asset_path("assets/sprites/rps_paper.png"),
+    "scissors": get_asset_path("assets/sprites/rps_scissors.png")
 }
 
 weather_sprites = {
-    "Clear": "assets/sprites/sunny.gif",
-    "Clouds": "assets/sprites/cloudy.gif",
-    "Rain": "assets/sprites/rainy.gif",
-    "Drizzle": "assets/sprites/rainy.gif",
-    "Thunderstorm": "assets/sprites/rainy.gif",
-    "Snow": "assets/sprites/cloudy.gif",
-    "Fog": "assets/sprites/cloudy.gif",
-    "Windy": "assets/sprites/windy.gif"
+    "Clear": get_asset_path("assets/sprites/sunny.gif"),
+    "Clouds": get_asset_path("assets/sprites/cloudy.gif"),
+    "Rain": get_asset_path("assets/sprites/rainy.gif"),
+    "Drizzle": get_asset_path("assets/sprites/rainy.gif"),
+    "Thunderstorm": get_asset_path("assets/sprites/rainy.gif"),
+    "Snow": get_asset_path("assets/sprites/cloudy.gif"),
+    "Fog": get_asset_path("assets/sprites/cloudy.gif"),
+    "Windy": get_asset_path("assets/sprites/windy.gif")
 }
 
 # === JoJo mode setup ===
@@ -67,9 +74,9 @@ jojo_keywords = [
 ]
 
 jojo_sprites = [
-    "assets/sprites/jojo1.png",
-    "assets/sprites/jojo2.png",
-    "assets/sprites/jojo3.png"
+    get_asset_path("assets/sprites/jojo1.png"),
+    get_asset_path("assets/sprites/jojo2.png"),
+    get_asset_path("assets/sprites/jojo3.png")
 ]
 
 # === Tkinter UI Setup ===
@@ -180,7 +187,11 @@ def typewriter_effect(sender, message, delay=25, callback=None):
 
     if sender.lower() == "bot":
         typing_done.clear()
-        typing_sound.play(loops=-1)
+        if typing_sound:
+            typing_sound.play(loops=-1)
+        else:
+            with open("log.txt", "a") as f:
+                f.write("[WARNING] Typing sound was not loaded — skipping play()\n")
 
     def type_char(index=0):
         global skip_typewriter
